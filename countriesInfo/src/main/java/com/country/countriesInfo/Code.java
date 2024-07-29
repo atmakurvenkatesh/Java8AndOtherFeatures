@@ -21,7 +21,10 @@ public class Code {
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
+		// printing http response code from rest call
 		System.out.println(responseEntity.getStatusCode());
+
+		// printing response body from rest call
 		System.out.println(responseEntity.getBody());
 
 		// type 1 which reads only required fields
