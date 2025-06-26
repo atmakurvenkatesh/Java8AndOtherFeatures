@@ -1,14 +1,22 @@
 package OtherFeatures;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class ComparatorExample {
 
 	int age;
 	String name;
+
+	public int getAge() {
+		return age;
+	}
+
+	public String getName() {
+		return name;
+	}
 
 	public ComparatorExample(int age, String name) {
 		super();
@@ -18,25 +26,41 @@ public class ComparatorExample {
 
 	@Override
 	public String toString() {
-		return "ComparatorExample [age=" + age + ", name=" + name + "]";
+		return "Object [age=" + age + ", name=" + name + "]";
 	}
 
 	public static void main(String[] args) {
 
 		ComparatorExample o1 = new ComparatorExample(51, "bbb");
-		ComparatorExample o2 = new ComparatorExample(37, "aaa");
+		ComparatorExample o2 = new ComparatorExample(37, "ddd");
 		ComparatorExample o3 = new ComparatorExample(45, "ccc");
-		List<ComparatorExample> l = new ArrayList<ComparatorExample>() {
-			{
-				add(o1);
-				add(o2);
-				add(o3);
-			}
-		};
+		ComparatorExample o4 = new ComparatorExample(37, "aaa");
+
+		ArrayList<ComparatorExample> l = new ArrayList<>(Arrays.asList(o1, o2, o3, o4));
+
 		Collections.sort(l, new AgeComparator());
 		l.forEach(System.out::println);
 		System.out.println();
 		Collections.sort(l, new NameComparator());
+		l.forEach(System.out::println);
+		System.out.println();
+
+		// Comparator using in lambda
+		Collections.sort(l, (obj1, obj2) -> obj1.age - obj2.age);
+		Collections.sort(l, (obj1, obj2) -> obj1.name.compareTo(obj2.name));
+
+		// Comparator using in lambda
+		l.sort(Comparator.comparingInt(obj -> obj.age));
+		l.sort(Comparator.comparing(ComparatorExample::getName));
+
+		// reverse a list
+		l.sort(Comparator.comparingInt(ComparatorExample::getAge).reversed());
+
+		ComparatorExample o5 = new ComparatorExample(37, "bbb");
+		l.add(o5);
+
+		// nested sorting
+		l.sort(Comparator.comparingInt(ComparatorExample::getAge).thenComparing(ComparatorExample::getName));
 		l.forEach(System.out::println);
 
 	}

@@ -1,4 +1,4 @@
-package OtherFeatures;
+package algo;
 
 import java.util.ArrayList;
 import java.util.Arrays;

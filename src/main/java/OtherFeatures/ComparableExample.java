@@ -1,12 +1,9 @@
 package OtherFeatures;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class ComparableExample implements Comparable<ComparableExample> {
 
@@ -54,19 +51,16 @@ public class ComparableExample implements Comparable<ComparableExample> {
 		ComparableExample o2 = new ComparableExample(37, "bbb", "bng");
 		ComparableExample o3 = new ComparableExample(45, "ccc", "hyd");
 		ComparableExample o4 = new ComparableExample(21, "ddd", "bng");
-		List<ComparableExample> l = new ArrayList<ComparableExample>() {
-			{
-				add(o1);
-				add(o2);
-				add(o3);
-				add(o4);
-			}
-		};
-//		Collections.sort(l);
-//		l.forEach(System.out::println);
 
-		System.out.println();
+//		List<ComparableExample> l = new ArrayList<>(Arrays.asList(o1, o2, o3, o4));
 
+		List<ComparableExample> l = Arrays.asList(o1, o2, o3, o4);
+
+		System.out.println("Using Comparable:, sort by age:");
+		Collections.sort(l);
+		l.forEach(System.out::println);
+
+		System.out.println("Using Comparator:, sort by location:");
 		l.stream().sorted(Comparator.comparing(ComparableExample::getLocation).reversed()).forEach(System.out::println);
 
 //		Map<String, List<ComparableExample>> resultSet = l.stream().collect(
