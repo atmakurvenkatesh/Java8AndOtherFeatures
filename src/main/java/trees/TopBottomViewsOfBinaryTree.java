@@ -20,6 +20,7 @@ public class TopBottomViewsOfBinaryTree {
 
 		Queue<QueueObj> queue = new LinkedList<>();
 		Map<Integer, Node> topViewMap = new TreeMap<>();
+		Map<Integer, Node> bottomViewMap = new TreeMap<>();
 
 		if (root == null) {
 			return;
@@ -35,7 +36,7 @@ public class TopBottomViewsOfBinaryTree {
 				topViewMap.put(obj.hd, obj.node);
 			}
 			// printing bottom view
-			topViewMap.put(obj.hd, obj.node);
+			bottomViewMap.put(obj.hd, obj.node);
 
 			if (obj.node.left != null) {
 				queue.add(new QueueObj(obj.hd - 1, obj.node.left));

@@ -1,4 +1,5 @@
 package Java8Features;
+
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -12,17 +13,11 @@ public class LambdaFunctions {
 			return a + b;
 		};
 
-		Calculator sub = (a, b) -> {
-			return a - b;
-		};
+		Calculator sub = (a, b) -> a - b;
 
-		Calculator mul = (a, b) -> {
-			return a * b;
-		};
+		Calculator mul = (a, b) -> a * b;
 
-		Calculator div = (a, b) -> {
-			return a / b;
-		};
+		Calculator div = (a, b) -> a / b;
 
 		System.out.println(sum.calculate(12, 5));
 		System.out.println(sub.calculate(12, 5));
@@ -32,6 +27,7 @@ public class LambdaFunctions {
 	}
 }
 
+// Functional Interface - An Interface that contain only one abstract method.
 interface Calculator {
 	int calculate(int a, int b);
 }

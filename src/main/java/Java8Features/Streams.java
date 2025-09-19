@@ -1,12 +1,15 @@
 package Java8Features;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.IntSummaryStatistics;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -14,18 +17,16 @@ import java.util.stream.IntStream;
 public class Streams {
 	public static void main(String[] args) {
 
-//		String s = "HACKERRANK!";
-//		System.out.println(s.substring(5, 9));
-//		System.out.println(s.substring(5, 1));
-
 		List<Integer> a = new ArrayList<>() {
 			{
 				add(1);
 				add(5);
 			}
-
 		};
 		List<Integer> l = Arrays.asList(5, 6, 8, 3, 8, 3, 6, 4);
+
+		// Distinct
+		l.stream().distinct().forEach(i -> System.out.print(i + ", "));
 
 		// LIST CONVERTION TO MAP - count of items
 		Map<Integer, Long> m = l.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
@@ -39,8 +40,15 @@ public class Streams {
 
 		// FILTER - print event numbers sorted
 		l.stream().filter(i -> i % 2 == 0).collect(Collectors.toList()).stream().sorted().forEach(System.out::print);
+		System.out.println();
 
-		System.out.println("==================");
+		/*- peek(consumer) — Inspect elements (debug) 
+		 * Allows side effects like logging without changing the stream.
+		 * summaryStatistics() - create all the statistics like min, max, sum, avg, count of the collection*/
+		List<Integer> nums = Arrays.asList(1, 2, 3, 4, 5);
+		IntSummaryStatistics stats = nums.stream().peek(i -> System.out.print("summaryStatistics:" + i + "\n"))
+				.mapToInt(Integer::intValue).summaryStatistics();
+		System.out.println(stats);
 
 		// maximum repeated character of a string
 		String s = "hi hello this is Oracle India, good afternoon";
@@ -52,6 +60,12 @@ public class Streams {
 				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream()
 				.sorted(Entry.comparingByValue(Comparator.reverseOrder())).findFirst().get().getKey().intValue();
 		System.out.println(ch);
+
+		char ch1 = (char) s.chars().map(c -> (char) c).boxed().filter(i -> i != ' ')
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream()
+				.sorted((m1, m2) -> m2.getValue().intValue() - m1.getValue().intValue()).findFirst().get().getKey()
+				.intValue();
+		System.out.println(ch1);
 
 		// get first non-repeated character of a String
 		ch = "aabciosnbs".chars().mapToObj(c -> (char) c)
@@ -111,6 +125,8 @@ public class Streams {
 		// ==========Collectors.mapping()===========
 		// =========================================
 
+		System.out.println("Collectors.mapping()");
+
 		noteLst.stream()
 				.collect(Collectors.groupingBy(Notes::tagName, Collectors.mapping(Notes::tagId, Collectors.toList())))
 				.entrySet().stream().forEach(System.out::println);
@@ -156,5 +172,54 @@ public class Streams {
 		l.stream().collect(Collectors.groupingBy(i -> i, LinkedHashMap::new, Collectors.counting())).entrySet().stream()
 				.forEach(System.out::println);
 
+		// Second largest(by length) string in a sentence
+		String str = "I came for an interview.";
+		System.out.println(Arrays.stream(str.split(" "))
+				.collect(Collectors.toMap(Function.identity(), temp -> temp.length())).entrySet().stream()
+				.sorted(Entry.comparingByValue(Comparator.reverseOrder())).skip(1).limit(1).findFirst().get().getKey());
+
+		List<Employee> employees = Arrays.asList(
+				new Employee(1, "Alice", 25, 101, Arrays.asList("Java", "Spring", "React")),
+				new Employee(2, "Bob", 28, 102, Arrays.asList("Java", "Angular")),
+				new Employee(3, "Charlie", 30, 101, Arrays.asList("Python", "Django", "React")),
+				new Employee(4, "David", 26, 103, Arrays.asList("Java", "Spring", "Microservices")));
+
+		// Group employees by skill in sorted order
+		Map<String, List<Employee>> employeesBySkill = employees.stream()
+				.flatMap(emp -> emp.getSkills().stream().map(skill -> new AbstractMap.SimpleEntry<>(skill, emp)))
+				.collect(Collectors.groupingBy(Map.Entry::getKey, // group by skill
+						TreeMap::new, // TreeMap -> sorted by skill
+						Collectors.mapping(Map.Entry::getValue, Collectors.toList())));
+
+		// Print result
+		employeesBySkill.forEach((skill, emps) -> System.out.println(skill + " -> " + emps));
+
 	}
+}
+
+class Employee {
+	private int id;
+	private String name;
+	private int age;
+	private int dept;
+	private List<String> skills;
+
+	public Employee(int id, String name, int age, int dept, List<String> skills) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.dept = dept;
+		this.skills = skills;
+	}
+
+	public List<String> getSkills() {
+		return skills;
+	}
+
+	@Override
+	public String toString() {
+//		return "Employee [id=" + id + ", name=" + name + ", age=" + age + ", dept=" + dept + ", skills=" + skills + "]";
+		return "Employee [id=" + id + ", name=" + name + "]";
+	}
+
 }
