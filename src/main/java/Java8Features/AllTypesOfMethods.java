@@ -1,15 +1,14 @@
+package Java8Features;
+
 /*
 The order of code execution in a Java class is as follows.
 1.Static variables are initialized.
 2.Static blocks are executed.
-3.Instance variables are initialized.
-4.Instance blocks are executed.
-5.Constructor is executed.
+3.Constructor is executed.
+4.Instance variables are initialized.
+5.Instance blocks are executed.
 6.Static methods can be called without creating an instance.
 */
-package Java8Features;
-
-
 public class AllTypesOfMethods {
 	public static void main(String[] args) {
 		AllMethods.staticMethod();
