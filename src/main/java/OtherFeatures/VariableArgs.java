@@ -1,8 +1,5 @@
 package OtherFeatures;
 
-import java.util.LinkedList;
-import java.util.Vector;
-
 public class VariableArgs {
 
 	public static void main(String[] args) {
