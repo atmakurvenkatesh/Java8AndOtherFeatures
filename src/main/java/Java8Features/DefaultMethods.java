@@ -51,7 +51,7 @@ public class DefaultMethods implements DefaultMethodsInterface {
 	}
 
 	public static void main(String[] args) {
-		DefaultMethods demo = new DefaultMethods();
+		DefaultMethodsInterface demo = new DefaultMethods();
 
 		// Call abstract method
 		demo.abstractMethod("Hello Interface");
@@ -60,7 +60,7 @@ public class DefaultMethods implements DefaultMethodsInterface {
 		demo.defaultMethod();
 
 		// call static method of a class
-		demo.staticMethod();
+		DefaultMethods.staticMethod();
 
 		// Call static method from interface
 		DefaultMethodsInterface.staticMethod();

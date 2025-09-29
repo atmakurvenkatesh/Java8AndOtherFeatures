@@ -2,22 +2,27 @@ package Java8Features;
 
 /*
 The order of code execution in a Java class is as follows.
-1.Static variables are initialized.
-2.Static blocks are executed.
-3.Constructor is executed.
-4.Instance variables are initialized.
-5.Instance blocks are executed.
-6.Static methods can be called without creating an instance.
+ - Static variables are initialized.
+ - Static blocks are executed.
+ - When Constructor is called, default block will be executed if any
+ - Constructor is executed.
+ - Instance variables are initialized.
+ - Instance blocks are executed.
+ - Static methods can be called without creating an instance.
 */
 public class AllTypesOfMethods {
 	public static void main(String[] args) {
 		AllMethods.staticMethod();
 		AllMethods a = new AllMethods();
-		a.instantmethod();
+		a.instancemethod();
 	}
 }
 
 class AllMethods {
+
+	{ // Default block
+		System.out.println("INSIDE DEFAULT BLOCK");
+	}
 
 	static { // static block
 		System.out.println("INSIDE STATIC BLOCK");
@@ -31,8 +36,8 @@ class AllMethods {
 		System.out.println("INSIDE CONSTRUCTOR");
 	}
 
-	public void instantmethod() {
-		System.out.println("Inside Instant Method");
+	public void instancemethod() {
+		System.out.println("Inside Instance Method");
 	}
 
 }
