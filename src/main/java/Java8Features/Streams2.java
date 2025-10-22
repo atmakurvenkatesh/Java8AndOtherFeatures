@@ -5,6 +5,18 @@ import java.util.Arrays;
 public class Streams2 {
 	public static void main(String[] args) {
 
+		Integer arr= {1,2,3,4,5,6,7,8,9};
+		Arrays.stream(arr)
+		    .collect(Collectors.partitioningBy(i -> i % 2 == 0))
+		    .entrySet()
+		    .stream()
+		    .sorted(Map.Entry.comparingByKey())   		// false (odds) first, then true (evens)
+		    .flatMap(entry -> entry.getKey()      		// key == false => odds
+		        ? entry.getValue().stream().sorted() 	// even ascending
+		        : entry.getValue().stream().sorted(Comparator.reverseOrder())   	// odd descending
+		    )
+		    .forEach(System.out::println); // output -> {9 7 5 3 1 2 4 6 8}
+
 		// Dealing arrays with streams - START
 
 		/*-  
@@ -69,3 +81,4 @@ public class Streams2 {
 		// map vs mapToInt vs mapToObj - END
 	}
 }
+
